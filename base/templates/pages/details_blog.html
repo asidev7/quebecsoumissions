@@ -1,0 +1,36 @@
+{% extends 'main/base.html' %}
+
+
+{% block main %}
+
+
+
+<div class="banner-section">
+    <div class="banner-overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 top-text">
+                <h1 class="text-center">{{blog.titre}}</h1>
+                <hr class="text-center" size="5px" color="#38a5db" width="50">
+                <p class="text-center">Publié par {{blog.auteur}} - {{blog.date_publiaction}}
+
+                </p>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+<div class="row justify-content-center p-4">
+    <div class="col-9 p-3" style="text-align: justify;color: black;">
+        <h1 class="" style="color: black;">{{ blog.titre }}</h1><br>
+        {{ blog.contenu | safe }}
+    </div>
+</div>
+<div class="btn-ctn justify-content-center text-center p-3 mb-3">
+<button class="btn btn-custom text-center p-2 w-50">Demande de soummission</button>
+</div>
+{% endblock %}
+
+

@@ -85,7 +85,6 @@ body {
 }
 /* Left Section Styling */
 .banner-section {
-    background-image: url('https://web.archive.org/web/20170206185222im_/http://quebecsoumissions.com/public/images/background2.jpg');
     height: 400px; /* Ajustez la hauteur selon vos besoins */
     background-size: cover;
     display: flex;
@@ -97,10 +96,18 @@ body {
 
 }
 
-.banner-section p{
+.banner-section p .home{
     font-size:30px;
     line-height:50px;
 
+}
+.banner-section p .inscription-text{
+    font-size: 40px;
+    font-weight: 900;
+}
+.top-text h1{
+    font-size: 50px;
+    font-weight: 900;
 }
 .banner-overlay {
     position: absolute;
@@ -172,4 +179,28 @@ form {
 .projet-realisation {
     color:black;
     
+}
+h2 {
+    color: black;
+}
+
+.card-deck {
+
+}
+
+.footer {
+    background-color: #39b3e6;
+    color: white;
+    padding: 50px 0;
+}
+.footer a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+}
+.footer a:hover {
+    text-decoration: underline;
+}
+.footer .social-icons a {
+    margin: 0 10px;
 }
