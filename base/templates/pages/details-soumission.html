@@ -1,0 +1,68 @@
+{% extends 'main/base.html' %}
+
+{% block main %}
+<div class="banner-section">
+    <div class="banner-overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 top-text">
+                <h1 class="text-center"> SOUMETTEZ VOTRE PROJET </h1>
+                <hr class="text-center" size="5px" color="#38a5db" width="50">
+                <p class="text-center">Obtenez plusieurs soumissions d'entrepreneurs dans votre région</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h2 class="text-center">Soumettre une Demande</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <form method="post" class="text-center">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ form.type_soummission.label_tag }}
+                            {{ form.type_soummission }}
+                            <small class="form-text text-muted">{{ form.type_soummission.help_text }}</small>
+                        </div>
+                        <div class="form-group">
+                            {{ form.adresse.label_tag }}
+                            {{ form.adresse }}
+                            <small class="form-text text-muted">{{ form.adresse.help_text }}</small>
+                        </div>
+                        <div class="form-group">
+                            {{ form.ville.label_tag }}
+                            {{ form.ville }}
+                            <small class="form-text text-muted">{{ form.ville.help_text }}</small>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-6">
+                    <form method="post" class="text-center">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ form.code_postal.label_tag }}
+                            {{ form.code_postal }}
+                            <small class="form-text text-muted">{{ form.code_postal.help_text }}</small>
+                        </div>
+                        <div class="form-group">
+                            {{ form.numero_telephone.label_tag }}
+                            {{ form.numero_telephone }}
+                            <small class="form-text text-muted">{{ form.numero_telephone.help_text }}</small>
+                        </div>
+                        <div class="form-group">
+                            {{ form.description_travaux.label_tag }}
+                            {{ form.description_travaux }}
+                            <small class="form-text text-muted">{{ form.description_travaux.help_text }}</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block w-100 p-3 m-3">Soumettre</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

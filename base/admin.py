@@ -1,6 +1,6 @@
 from django.contrib import admin
 from markdownx.admin import MarkdownxModelAdmin
-from base.models import Forfait, Information, Service, Type_Soumission,Blog
+from base.models import Fonctionnalite, Forfait, Information, Realisation, Service, Type_Soumission,Blog
 
 # Register your models here.
 class ServiceAdmin(admin.ModelAdmin):
@@ -27,3 +27,7 @@ admin.site.register(Forfait, AdminForfait)
 class BlogAdmin(MarkdownxModelAdmin):
     list_display = ('titre', 'auteur', 'date_publiaction', 'slug')
     prepopulated_fields = {'slug': ('titre',)}
+
+
+admin.site.register(Fonctionnalite)
+admin.site.register(Realisation)
