@@ -2,6 +2,10 @@ from django.shortcuts import redirect, render
 
 from base.forms import SoumissionForm
 from base.models import Blog, Realisation, Service, Type_Soumission
+from .forms import UserForm, EntrepriseForm
+from django.contrib.auth.models import User
+from .forms import UserForm, ClientForm
+
 
 # Create your views here.
 def home(request):
@@ -65,14 +69,56 @@ def Soummision(request):
     return render(request,'pages/soumission.html')
 
 def inscription_entrepreneur(request):
-    return render(request,'pages/inscription_entrepreneur.html')
+
+    if request.method == 'POST':
+        user_form = UserForm(request.POST)
+        entreprise_form = EntrepriseForm(request.POST, request.FILES)
+        if user_form.is_valid() and entreprise_form.is_valid():
+            user = user_form.save(commit=False)
+            user.set_password(user_form.cleaned_data['password'])
+            user.save()
+            entreprise = entreprise_form.save(commit=False)
+            entreprise.user = user
+            entreprise.save()
+            return redirect('success_url')
+    else:
+        user_form = UserForm()
+        entreprise_form = EntrepriseForm()
+    return render(request, 'pages/inscription_entrepreneur.html', {
+        'user_form': user_form,
+        'entreprise_form': entreprise_form
+    })
+
+
 
 def inscription_client(request):
-    return render(request,'pages/inscription_client.html')
-
+    if request.method == 'POST':
+        user_form = UserForm(request.POST)
+        client_form = ClientForm(request.POST)
+        if user_form.is_valid() and client_form.is_valid():
+            user = user_form.save(commit=False)
+            user.set_password(user_form.cleaned_data['password'])
+            user.save()
+            client = client_form.save(commit=False)
+            client.user = user
+            client.save()
+            return redirect('home')  # Redirect to home or any other appropriate page
+    else:
+        user_form = UserForm()
+        client_form = ClientForm()
+    return render(request, 'pages/inscription_client.html', {
+        'user_form': user_form,
+        'client_form': client_form
+    })
 
 def contact(request):
     return render(request,'main/contact.html')
 
 def Affiliation(request):
     return render(request,'pages/affiliation.html')
+
+
+
+
+
+    

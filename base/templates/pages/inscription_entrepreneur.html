@@ -1,25 +1,30 @@
 {% extends 'main/base.html' %}
-
+ {% load static %}
 
 {% block main %}
 
 
+<link rel="stylesheet" href="{% static "css/stylel.css" %}">
 
+<style>
+    .banner-section{
+        background-image:url('static/images/bg-home.jpg');
+    }
+    
+    </style>
+  
 <div class="banner-section">
     <div class="banner-overlay"></div>
     <div class="container">
         <div class="row">
-            <div class="col-md-12 top-text">
+            <div class="col-12 top-text">
                 <h1 class="text-center">INSCRIPTION POUR ENTREPRENEUR</h1>
-                <hr class="text-center" size="5px" color="#38a5db" width="50">
-                <p class="text-center">Notre plate forme d'acquisition de clientèle est indispensable pour toute entreprise désirant développer son chiffre d'affaires.                    !</p>
+                <hr class="text-center mx-auto" style="width: 50px; height: 5px; background-color: #38a5db;">
+                <p class="text-center">Notre plate forme d'acquisition de clientèle est indispensable pour toute entreprise désirant développer son chiffre d'affaires !</p>
             </div>
-            
         </div>
     </div>
 </div>
 
-
+  
 {% endblock %}
-
-

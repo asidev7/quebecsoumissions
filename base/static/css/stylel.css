@@ -1,0 +1,32 @@
+.input-group-icon input {
+    padding-left: 4.4em;
+  }
+  
+  .input-group-icon .input-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3.4em;
+    height: 3.4em;
+    line-height: 3.4em;
+    text-align: center;
+    pointer-events: none;
+  }
+  
+  .input-group-icon .input-icon:after {
+    position: absolute;
+    top: 0.6em;
+    bottom: 0.6em;
+    left: 3.4em;
+    display: block;
+    border-right: 1px solid #e5e5e5;
+    content: "";
+    transition: all 0.35s ease-in-out;
+  }
+  
+  .input-group-icon .input-icon i {
+    transition: all 0.35s ease-in-out;
+  }
+  
+  /* Add more specific styles for Django form widgets if needed */
+  
