@@ -33,8 +33,8 @@ INSTALLED_APPS = [
     'base',
      'ckeditor',
      'slugger',
-]
 
+]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 

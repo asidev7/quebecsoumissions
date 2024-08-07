@@ -2,18 +2,123 @@
 
 
 {% block main %}
-
+<style>
+    .form-container {
+        max-width: 800px;
+        margin: auto;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background: #f7f7f7;
+    }
+    .form-container fieldset {
+        border: none;
+        padding: 0;
+    }
+    .form-container legend {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+    }
+    .form-group label {
+        font-weight: bold;
+        color: #39b3e6;
+    }
+    .banner-section {
+        position: relative;
+        text-align: center;
+        padding: 50px 0;
+        background: #38a5db;
+        color: white;
+    }
+    .banner-section .banner-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+    .banner-section .top-text {
+        position: relative;
+        z-index: 1;
+    }
+    .banner-section h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+    .banner-section p {
+        font-size: 1.2rem;
+    }
+    .main-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 60vh;
+    }
+</style>
+</head>
+<body>
 <div class="banner-section">
     <div class="banner-overlay"></div>
     <div class="container">
         <div class="row">
-            <div class="col-md-12 top-text">
-                <h1 class="text-center">INSCRIPTION POUR LE CLIENT</h1>
-                <hr class="text-center" size="5px" color="#38a5db" width="50">
-                <p class="text-center">Notre plate forme d'acquisition de clientèle est indispensable pour toute entreprise désirant développer son chiffre d'affaires.                    !</p>
+            <div class="col-12 top-text">
+                <h1 class="text-center">INSCRIPTION CLIENT</h1>
+                <hr class="text-center mx-auto" style="width: 50px; height: 5px; background-color: #fff;">
+                <p class="text-center">Rejoignez notre plateforme et profitez de nos services exceptionnels !</p>
             </div>
-            
         </div>
+    </div>
+</div>
+
+<div class="container mt-5 main-content">
+    <div class="form-container">
+        <h2 class="text-center mb-4">Inscription Client</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-12">
+                    <fieldset>
+                        <legend>Informations Utilisateur</legend>
+                        {% for field in user_form %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </fieldset>
+                </div>
+                <div class="col-md-12">
+                    <fieldset>
+                        <legend>Informations Client</legend>
+                        {% for field in client_form %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <div class="invalid-feedback d-block">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </fieldset>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary btn-lg">Inscription</button>
+            </div>
+        </form>
     </div>
 </div>
 

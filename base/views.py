@@ -2,9 +2,9 @@ from django.shortcuts import redirect, render
 
 from base.forms import SoumissionForm
 from base.models import Blog, Realisation, Service, Type_Soumission
-from .forms import UserForm, EntrepriseForm
+from .forms import ClientForm, UserForm, EntrepriseForm
 from django.contrib.auth.models import User
-from .forms import UserForm, ClientForm
+from .forms import UserForm
 
 
 # Create your views here.
@@ -68,8 +68,9 @@ def details_soumission(request,id=id):
 def Soummision(request):
     return render(request,'pages/soumission.html')
 
-def inscription_entrepreneur(request):
 
+
+def inscription_entrepreneur(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         entreprise_form = EntrepriseForm(request.POST, request.FILES)
@@ -80,7 +81,7 @@ def inscription_entrepreneur(request):
             entreprise = entreprise_form.save(commit=False)
             entreprise.user = user
             entreprise.save()
-            return redirect('success_url')
+            return redirect(home)
     else:
         user_form = UserForm()
         entreprise_form = EntrepriseForm()
@@ -88,8 +89,8 @@ def inscription_entrepreneur(request):
         'user_form': user_form,
         'entreprise_form': entreprise_form
     })
-
-
+    
+    
 
 def inscription_client(request):
     if request.method == 'POST':
@@ -102,7 +103,7 @@ def inscription_client(request):
             client = client_form.save(commit=False)
             client.user = user
             client.save()
-            return redirect('home')  # Redirect to home or any other appropriate page
+            return redirect('home')  # Ensure you have a view named 'home'
     else:
         user_form = UserForm()
         client_form = ClientForm()
@@ -110,7 +111,7 @@ def inscription_client(request):
         'user_form': user_form,
         'client_form': client_form
     })
-
+    
 def contact(request):
     return render(request,'main/contact.html')
 
@@ -119,6 +120,5 @@ def Affiliation(request):
 
 
 
-
-
-    
+def cgu(request):
+    return render(request,'pages/cgu.html')
