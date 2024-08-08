@@ -10,8 +10,15 @@
                 <a href="#" class="text-white"><i class="fas fa-envelope"></i></a>
             </div>
             <div class="login">
-                <a href="#" class="text-white">Connexion</a>
+                {% if user.is_authenticated %}
+                    <div id="user-info">
+                        <span>Connecté en tant que {{ user.email }}</span>
+                    </div>
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-white">Connexion</a>
+                {% endif %}
             </div>
+            
         </div>
     </div>
     <!-- Navbar -->
@@ -31,7 +38,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {% for service in services %}
-                        <a class="dropdown-item" href="">{{service.nom}}</a>   
+                        <a class="dropdown-item" href="{% url 'detail_service'  service.slug %}">{{service.nom}}</a>   
                         {% endfor %}                  
                          
                         </div>
@@ -42,44 +49,52 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             {% for forfait in forfaits %}
-                            <a class="dropdown-item" href="#">{{forfait.nom_forfait}}</a>
+                            <a class="dropdown-item" href="/forfaits">{{forfait.nom_forfait}}</a>
                             {% endfor %}
                             
 
                            
                         </div>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="/Soummision" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            SOUMISSION
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            {% for soumission in soumissions %}
-                            <a class="dropdown-item" href="{% url 'details_soumission' soumission.id %}">{{soumission.nom}}</a>
-                            {% endfor %}
-                           
-                        </div>
-                    </li>
                     
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Soummision">SOUMISSIONS</a>
+                    </li> 
                     <li class="nav-item">
                         <a class="nav-link" href="/repertoire">RÉPERTOIRE</a>
                     </li> 
                     <li class="nav-item">
                         <a class="nav-link" href="/blogue">BLOGUE</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        INSCRIPTION
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown" >
-                            <a class="dropdown-item" href="/inscription-entrepreneur">Pour les entrepreneurs</a>
-                            <a class="dropdown-item" href="/client">Pour clients</a>
-                            
-                        </div>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/contact">CONTACT</a>
                     </li>
+                    {% if user.is_authenticated %}
+                    <!-- Menu déroulant pour les utilisateurs connectés -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user pr-2"></i> TABLEAU BORD
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/profile">Profile</a>
+                            {% if user.is_staff %}
+                                <a class="dropdown-item" href="{% url 'home' %}">Fiche Entreprise</a>
+                            {% endif %}
+                            <a class="dropdown-item" href="/logout">Déconnexion</a>
+                        </div>
+                    </li>
+                {% else %}
+                    <!-- Menu pour les utilisateurs non connectés -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            INSCRIPTION
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/inscription-entrepreneur">Pour les entrepreneurs</a>
+                            <a class="dropdown-item" href="/client">Pour clients</a>
+                        </div>
+                    </li>
+                {% endif %}
                 </ul>
             </div>
         </div>

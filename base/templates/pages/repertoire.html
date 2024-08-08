@@ -3,19 +3,236 @@
 
 {% block main %}
 
+<style>
+    .banner-section {
+        position: relative;
+        text-align: center;
+        padding: 50px 0;
+        background-image:url('static/images/bg-home.jpg');
+        color: white;
+    }
+    .banner-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+    .top-text {
+        position: relative;
+        z-index: 1;
+    }
+    .top-text h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+    .top-text p {
+        font-size: 1.2rem;
+    }
+    .section-underline {
+        width: 50px;
+        height: 5px;
+        background-color: #38a5db;
+        margin: 10px auto;
+    }
+    .carousel-inner {
+        max-height: 500px;
+    }
+    .carousel-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+    }
+    .enterprise-item {
+        background: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        width: 100%;
+        margin: auto;
+    }
+    .enterprise-logo {
+        max-width: 100px;
+        max-height: 100px;
+        object-fit: cover;
+        margin-right: 20px;
+    }
+    .service-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+    .service-card {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        color:#000;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 150px;
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .service-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+    .service-card .service-name {
+        font-size: 1.1rem;
+        font-weight: bold;
+        text-align: center;
+    }
+    .service-card:hover .service-name {
+        font-size: 1.2rem;
+        color: #007bff;
+    }
+    .service-card .icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 1.5rem;
+        color: #007bff;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    .service-card:hover .icon {
+        opacity: 1;
+    }
+    .enterprise-info {
+        margin-top: 20px;
+    }
+    .enterprise-info .row {
+        margin-bottom: 10px;
+    }
+    .enterprise-info .col-md-6 {
+        margin-bottom: 10px;
+    }
+    .enterprise-details {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .enterprise-details div {
+        width: 50%;
+    }
+    .search-container {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        background: #ffffff;
+        border: 1px solid #e0e0e0;
+    }
+
+    .search-results {
+        margin-top: 20px;
+    }
+
+    .search-results h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .search-results ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .search-results ul li {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .search-results ul li a {
+        text-decoration: none;
+        color: #38a5db;
+    }
+
+    .search-results ul li a:hover {
+        text-decoration: underline;
+    }
+</style>
 
 
 <div class="banner-section">
     <div class="banner-overlay"></div>
     <div class="container">
-        <div class="row">
-            <div class="col-md-12 top-text">
-                <h1 class="text-center">NOS FORFAITS POUR ENTREPRENEUR     </h1>
-                <hr class="text-center" size="5px" color="#38a5db" width="50">
-                <p class="text-center">Choisissez un des forfaits ci-dessous et augmentez votre clientèle à l'aide de nos outils et services de visibilité web!                    !</p>
+        <div id="enterpriseCarousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                {% for entreprise in entreprises %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="enterprise-item">
+                        <div class="d-flex align-items-center">
+                            <img src="{{ entreprise.logo.url }}" alt="Logo" class="enterprise-logo">
+                            <div class="enterprise-info text-dark">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <strong>Site web:</strong> <a href="{{ entreprise.site_web }}">{{ entreprise.site_web }}</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Service:</strong> {{ entreprise.service }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <strong>Adresse:</strong> {{ entreprise.adresse }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Ville:</strong> {{ entreprise.ville }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <strong>Postal:</strong> {{ entreprise.code_postal }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <a href="{% url 'entreprise_detail' entreprise.slug  %}" class="btn btn-primary">Voir Profil</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
-            
+            <a class="carousel-control-prev" href="#enterpriseCarousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#enterpriseCarousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
+    </div>
+</div>
+
+<div class="container mt-5 py-5">
+    <h2 class="text-center">RÉPERTOIRE DES ENTREPRISES</h2>
+    <p class="text-center">Ci-dessous les catégories des entreprises présentes sur notre site.</p>
+    <div class="container mt-5">
+        <form method="get" action="{% url 'search' %}">
+            <input type="text" name="query" class="form-control mb-4" placeholder="Rechercher une catégorie, entreprise, ou service">
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+        </form>
+    </div>   
+    
+    <div class="service-grid">
+        {% for service in services %}
+       <a href="{% url 'detail_service'  service.slug %}"><div class="service-card">
+            <div class="service-name">{{ service.nom }}</div>
+            <div class="icon">+</div>
+        </div>
+        </a>
+        {% endfor %}
     </div>
 </div>
 

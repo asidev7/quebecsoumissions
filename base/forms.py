@@ -1,5 +1,5 @@
 from django import forms
-from .models import Soumission
+from .models import Contact, Soumission
 from .models import Entreprise
 from django.contrib.auth.models import User
 from .models import Entreprise
@@ -8,12 +8,37 @@ from .models import Entreprise
 from django import forms
 from .models import Client
 
+from django.contrib.auth.forms import AuthenticationForm
 
+class CustomAuthenticationForm(AuthenticationForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Nom d\'utilisateur',
+        'aria-describedby': 'username-icon'
+    }))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Mot de passe',
+        'aria-describedby': 'password-icon'
+    }))
+    
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['nom', 'email', 'sujet', 'message']
+        widgets = {
+            'nom': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Votre nom'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Votre email'}),
+            'sujet': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Sujet'}),
+            'message': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Votre message'}),
+        }
+    
 class SoumissionForm(forms.ModelForm):
     class Meta:
         model = Soumission
-        fields = ['type_soummission', 'adresse', 'ville', 'code_postal', 'numero_telephone', 'description_travaux']
+        fields = ['service','type_soummission', 'adresse', 'ville', 'code_postal', 'numero_telephone', 'description_travaux']
         widgets = {
+            'service': forms.Select(attrs={'class': 'form-control p-3'}),
             'type_soummission': forms.Select(attrs={'class': 'form-control p-3'}),
             'adresse': forms.TextInput(attrs={'class': 'form-control p-3', 'placeholder': 'Entrez votre adresse'}),
             'ville': forms.TextInput(attrs={'class': 'form-control p-3', 'placeholder': 'Entrez votre ville'}),
@@ -79,6 +104,7 @@ class EntrepriseForm(forms.ModelForm):
             'pourcentage_remise',
             'conditions_acceptees'
         ]
+        exclude =['conditions_acceptees']
         widgets = {
             'adresse': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Entrez votre adresse'}),
             'ville': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Entrez votre ville'}),
@@ -129,6 +155,7 @@ class ClientForm(forms.ModelForm):
     class Meta:
         model = Client
         fields = ['adresse', 'code_postal', 'numero_telephone', 'conditions_acceptees']
+        exclude =['conditions_acceptees']
         widgets = {
             'adresse': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Entrez votre adresse'}),
             'code_postal': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Entrez votre code postal'}),
@@ -141,3 +168,9 @@ class ClientForm(forms.ModelForm):
             'numero_telephone': 'Numéro de téléphone',
             'conditions_acceptees': 'Conditions acceptées'
         }
+        
+class SearchForm(forms.Form):
+    query = forms.CharField(max_length=255, widget=forms.TextInput(attrs={
+        'class': 'form-control mb-4',
+        'placeholder': 'Rechercher une catégorie, entreprise, ou service'
+    }))

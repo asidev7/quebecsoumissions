@@ -1,38 +1,177 @@
 {% extends 'main/base.html' %}
 
-
 {% block main %}
 
+<style>
+    .banner-section {
+        position: relative;
+        background: #38a5db;
+        color: white;
+        padding: 40px 0;
+        margin-bottom: 30px;
+    }
+
+    .banner-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 0;
+    }
+
+    .banner-section .container {
+        position: relative;
+        z-index: 1;
+    }
+
+    .banner-section h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+
+    .banner-section hr {
+        border-top: 4px solid #ffffff;
+        width: 50px;
+        margin: 20px auto;
+    }
+
+    .banner-section p {
+        font-size: 1.2rem;
+    }
+
+    .form-container {
+        max-width: 500px; /* Limite la largeur à 600px */
+        margin: 0 auto; /* Centre le formulaire horizontalement */
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        background: #ffffff;
+        border: 1px solid #e0e0e0;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group .form-control {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        padding: 10px;
+        font-size: 1rem;
+    }
+
+    .form-group .form-control:focus {
+        box-shadow: none;
+        border-color: #38a5db;
+    }
+
+    .btn-primary {
+        background-color: #38a5db;
+        border-color: #38a5db;
+        padding: 10px 20px;
+        font-size: 1.1rem;
+        border-radius: 8px;
+        font-family: 'Lato', Arial, sans-serif;
+    }
+
+    .btn-primary:hover {
+        background-color: #3294c1;
+        border-color: #3294c1;
+    }
+
+    .form-check-label a {
+        color: #38a5db;
+        text-decoration: none;
+    }
+
+    .form-check-label a:hover {
+        text-decoration: underline;
+    }
+</style>
 
 <div class="banner-section">
     <div class="banner-overlay"></div>
     <div class="container">
         <div class="row">
-            <div class="col-md-12 top-text">
-                <h1 class="text-center"> SOUMETTEZ VOTRE PROJET
-                </h1>
-                <hr class="text-center" size="5px" color="#38a5db" width="50">
-                <p class="text-center">Obtenez plusieurs soumissions d'entrepreneurs dans votre région
-
-                </p>
+            <div class="col-md-12 text-center">
+                <h1>SOUMETTEZ VOTRE PROJET</h1>
+                <hr>
+                <p>Obtenez plusieurs soumissions d'entrepreneurs dans votre région</p>
             </div>
         </div>
     </div>
-
 </div>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-8">
-            <h2 class="text-center">Soumettre une Demande</h2>
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">Soumettre</button>
-            </form>
-        </div>
+<div class="container p-4">
+    <div class="form-container">
+        <h2 class="text-center p-3">Demande Rapide de Soumission</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                    </div>
+                    <input type="text" name="adresse" class="form-control" placeholder="Adresse" value="{{ form.adresse.value }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-city"></i></span>
+                    </div>
+                    <input type="text" name="ville" class="form-control" placeholder="Ville" value="{{ form.ville.value }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-mail-bulk"></i></span>
+                    </div>
+                    <input type="text" name="code_postal" class="form-control" placeholder="Code Postal" value="{{ form.code_postal.value }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                    </div>
+                    <input type="text" name="numero_telephone" class="form-control" placeholder="Numéro de Téléphone" value="{{ form.numero_telephone.value }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-pencil-alt"></i></span>
+                    </div>
+                    <textarea name="description_travaux" class="form-control" rows="4" placeholder="Description des Travaux">{{ form.description_travaux.value }}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-cogs"></i></span>
+                    </div>
+                    {{ form.type_soumission }}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
+                    </div>
+                    {{ form.service }}
+                </div>
+            </div>
+            <div class="form-group form-check text-dark">
+                <input type="checkbox" name="accepte_conditions" class="form-check-input" id="accepte_conditions" {% if form.accepte_conditions.value %}checked{% endif %}>
+                <label class="form-check-label" for="accepte_conditions">J'ai lu et accepte les <a href="/cgu">conditions d'utilisation</a></label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 btn-block">Soumettez Votre Projet</button>
+        </form>
     </div>
 </div>
+
 {% endblock %}
-
-

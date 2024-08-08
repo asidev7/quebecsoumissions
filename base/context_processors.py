@@ -3,7 +3,7 @@ from base.models import Forfait, Information, Service, Type_Soumission
 
 def getService(request):
     # Récupérer les trois premiers services depuis la base de données
-    services = Service.objects.all()[:3]
+    services = Service.objects.all()
     return {'services':services}
 
 def getSoumission(request):

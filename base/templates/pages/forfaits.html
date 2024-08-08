@@ -1,25 +1,87 @@
 {% extends 'main/base.html' %}
 
-
 {% block main %}
+<style>
 
 
+    .banner-section{
+        background-image:url('static/images/bg-home.jpg');
+    }
+    .pricing-section {
+        padding: 40px 0;
+    }
+    .pricing-card {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin: 20px;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .pricing-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+    .pricing-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+    .pricing-card .price {
+        font-size: 2rem;
+        color: #38a5db;
+        margin-bottom: 20px;
+    }
+    .pricing-card ul {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+    .pricing-card ul li {
+        margin-bottom: 10px;
+    }
+    .pricing-card .btn {
+        background-color: #38a5db;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+    .pricing-card .btn:hover {
+        background-color: #3294c1;
+    }
+</style>
 
 <div class="banner-section">
     <div class="banner-overlay"></div>
     <div class="container">
         <div class="row">
             <div class="col-md-12 top-text">
-                <h1 class="text-center">NOS FORFAITS POUR ENTREPRENEUR     </h1>
+                <h1 class="text-center">NOS FORFAITS POUR ENTREPRENEUR</h1>
                 <hr class="text-center" size="5px" color="#38a5db" width="50">
-                <p class="text-center">Choisissez un des forfaits ci-dessous et augmentez votre clientèle à l'aide de nos outils et services de visibilité web!                    !</p>
+                <p class="text-center">Choisissez un des forfaits ci-dessous et augmentez votre clientèle à l'aide de nos outils et services de visibilité web!</p>
             </div>
-            
         </div>
     </div>
 </div>
 
-
+<div class="container pricing-section">
+    <p class="text-center text-dark">{{nbr_forfaits}} forfaits pour augmenter votre visibilité web!</p>
+    <div class="row text-dark">
+        {% for forfait in forfaits %}
+            <div class="col-md-4">
+                <div class="pricing-card">
+                    <h3 class="text-dark">{{ forfait.nom_forfait }}</h3>
+                    <p class="price">${{ forfait.prix_abonnement }}</p>
+                    <ul>
+                        {% for fonctionnalite in forfait.fonctionnalites.all %}
+                            <li><input class="form-check-input" type="checkbox"  checked disable> {{ fonctionnalite.nom }}</li>
+                        {% endfor %}
+                    </ul>
+                    <a href="/activate_forfait" class="btn">Souscrire</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
-
-

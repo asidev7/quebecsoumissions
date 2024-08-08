@@ -1,0 +1,194 @@
+{% extends 'main/base.html' %}
+ {% load static %}
+
+{% block main %}
+
+<style>
+    .banner-section{
+        background-image:url('static/images/bg-home.jpg');
+    }
+</style>
+
+<style>
+    .banner-section{
+        background-image:url('static/images/bg-home.jpg');
+    }
+    .form-container {
+        max-width: 800px;
+        margin: auto;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background: #f7f7f7;
+    }
+    .form-container fieldset {
+        border: none;
+        padding: 0;
+    }
+    .form-container legend {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+    }
+    .form-group label {
+        font-weight: bold;
+        color: #39b3e6;
+    }
+    .banner-section {
+        position: relative;
+        text-align: center;
+        padding: 50px 0;
+        background: #38a5db;
+        color: white;
+    }
+    .banner-section .banner-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+    .banner-section .top-text {
+        position: relative;
+        z-index: 1;
+    }
+    .banner-section h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+    .banner-section p {
+        font-size: 1.2rem;
+    }
+    .main-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 60vh;
+    }
+
+    .entreprise-list {
+        margin: 20px auto;
+        max-width: 1200px;
+    }
+    .entreprise-item {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background: #fff;
+    }
+    .entreprise-image {
+        flex: 0 0 150px;
+        height: 150px;
+        overflow: hidden;
+    }
+    .entreprise-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    .entreprise-content {
+        flex: 1;
+        padding: 20px;
+    }
+    .entreprise-title {
+        font-size: 1.5rem;
+        margin: 0 0 10px;
+        color: #333;
+    }
+    .entreprise-details {
+        font-size: 1rem;
+        color: #555;
+    }
+    .entreprise-details p {
+        margin: 0 0 10px;
+    }
+    .entreprise-buttons {
+        margin-top: 20px;
+    }
+    .btn-profile {
+        padding: 10px 20px;
+        font-size: 1rem;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+    }
+    .btn-profile:hover {
+        background-color: #0056b3;
+    }
+        </style>
+    </head>
+    <body>
+        <div class="banner-section">
+            <div class="banner-overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 top-text">
+                        <h1 class="text-center">{{service.nom}}</h1>
+                        <hr class="text-center mx-auto" style="width: 50px; height: 5px; background-color: #fff;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+
+
+        <div class="container mt-5 py-5">
+            <h2 class="text-center">RÉPERTOIRE DES ENTREPRISES</h2>
+            <p class="text-center">Ci-dessous les catégories des entreprises présentes sur notre site.</p>
+            <div class="container mt-5">
+                <form method="get" action="{% url 'search' %}">
+                    <input type="text" name="query" class="form-control mb-4" placeholder="Rechercher une catégorie, entreprise, ou service">
+                    <button type="submit" class="btn btn-primary">Rechercher</button>
+                </form>
+            </div>            
+            </div>
+        </div>
+    
+<div class="container entreprise-list p-4">
+    <h1 class="text-center text-dark">Entreprises pour le service "{{ service.nom }}"</h1>
+    <div class="row">
+        {% for entreprise in entreprises %}
+            <div class="col-md-12">
+                <div class="entreprise-item">
+                    <div class="entreprise-image">
+                        {% if entreprise.logo %}
+                            <img src="{{ entreprise.logo.url }}" alt="{{ entreprise.service.nom }}">
+                        {% else %}
+                            <img src="{% static 'images/default-logo.png' %}" alt="Default Logo">
+                        {% endif %}
+                    </div>
+                    <div class="entreprise-content">
+                        <h2 class="entreprise-title">{{ entreprise.service.nom }}</h2>
+                        <div class="entreprise-details">
+                            <p><strong>Adresse :</strong> {{ entreprise.adresse }}, {{ entreprise.ville }}, {{ entreprise.code_postal }}</p>
+                            <p><strong>Téléphone :</strong> {{ entreprise.numero_telephone }}</p>
+                            <p><strong>Site web :</strong> <a href="{{ entreprise.site_web }}" target="_blank">{{ entreprise.site_web }}</a></p>
+                            <p><strong>Description :</strong> {{ entreprise.courte_description_entreprise }}</p>
+                        </div>
+                        <div class="entreprise-buttons">
+                            <a href="{% url 'entreprise_detail' entreprise.slug  %}" class="btn-profile">Voir le profil</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-primary text-center">
+                <p>Aucune entreprise trouvée pour ce service.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'main/base.html' %}
+
+{% block main %}
+<style>
+    .search-container {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        background: #ffffff;
+        border: 1px solid #e0e0e0;
+    }
+
+    .search-results {
+        margin-top: 20px;
+    }
+
+    .search-results h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .search-results ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .search-results ul li {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .search-results ul li a {
+        text-decoration: none;
+        color: #38a5db;
+    }
+
+    .search-results ul li a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="container search-container">
+    <form method="get" action="{% url 'search' %}" class="form-inline">
+        <div class="form-group mb-2 mr-2 flex-grow-1">
+            <input type="text" name="query" class="form-control w-100" placeholder="Rechercher une catégorie, entreprise, ou service" value="{{ query }}">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Rechercher</button>
+    </form>
+
+    <div class="search-results">
+        {% if query %}
+            <h2>Résultats de recherche pour "{{ query }}"</h2>
+            <ul>
+                {% for entreprise in entreprises %}
+                    <li>
+                        <a href="{% url 'entreprise_detail' entreprise.slug %}">{{ entreprise.user.username }}</a> - Entreprise
+                    </li>
+                {% endfor %}
+                {% for service in services %}
+                    <li>
+                        <a href="{% url 'detail_service' service.slug %}">{{ service.nom }}</a> - Service
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <h2>Aucun résultat trouvé</h2>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

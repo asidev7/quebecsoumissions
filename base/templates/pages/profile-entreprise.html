@@ -1,0 +1,241 @@
+{% extends 'main/base.html' %}
+
+{% block main %}
+<style>
+    .banner-section{
+        background-image:url('static/images/bg-home.jpg');
+    }
+
+    .banner-section {
+        position: relative;
+        background: #38a5db;
+        color: white;
+        padding: 40px 0;
+        margin-bottom: 30px;
+    }
+
+    .banner-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 0;
+    }
+
+    .banner-section .container {
+        position: relative;
+        z-index: 1;
+    }
+
+    .enterprise-detail-container {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    .enterprise-sidebar {
+        flex: 1;
+        max-width: 300px;
+        margin-right: 20px;
+    }
+
+    .enterprise-content {
+        flex: 3;
+    }
+
+    .enterprise-logo {
+        width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+    }
+
+    .enterprise-info {
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .enterprise-info h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .enterprise-info p {
+        margin-bottom: 10px;
+    }
+
+    .enterprise-info a {
+        color: #38a5db;
+        text-decoration: none;
+    }
+
+    .enterprise-info a:hover {
+        text-decoration: underline;
+    }
+
+    .enterprise-info .btn {
+        background-color: #38a5db;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    .enterprise-info .btn:hover {
+        background-color: #3294c1;
+    }
+    .profile-container {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        background: #ffffff;
+        border: 1px solid #e0e0e0;
+    }
+
+    .profile-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .profile-header h2 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    .profile-details {
+        margin-top: 20px;
+    }
+
+    .profile-details p {
+        margin-bottom: 10px;
+    }
+
+    .profile-details strong {
+        display: inline-block;
+        width: 150px;
+    }
+
+    .profile-details a {
+        color: #38a5db;
+        text-decoration: none;
+    }
+
+    .profile-details a:hover {
+        text-decoration: underline;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0,0,0);
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+    .map-container {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    #map {
+        width: 100%;
+        height: 400px;
+    }
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+
+<div class="banner-section shadow">
+    <div class="banner-overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1>À PROPOS DE {{ entreprise.nom }}</h1>
+                <hr>
+                <p>{{ entreprise.description_courte }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container enterprise-detail-container text-dark p-5">
+    <div class="enterprise-sidebar">
+        <img src="{{ entreprise.logo.url }}" alt="Logo {{ entreprise.nom }}" class="enterprise-logo">
+        <div class="enterprise-info">
+            <div class="profile-header">
+                <h2>Profil de {{ user.username }}</h2>
+                <p>Email: {{ user.email }}</p>
+            </div>
+
+            <h2>Informations</h2>
+            <p><strong>Site Web:</strong> <a href="{{ entreprise.site_web }}">{{ entreprise.site_web }}</a></p>
+            <p><strong>Téléphone:</strong> {{ entreprise.numero_telephone }}</p>
+            <p><strong>Adresse:</strong> {{ entreprise.adresse }}, {{ entreprise.ville }}, {{ entreprise.code_postal }}</p>
+            <p><strong>Service:</strong> {{ entreprise.service.nom }}</p>
+            <p><strong>Dernière réalisation:</strong> {{ entreprise.derniere_realisation }}</p>
+            <a href="#" class="btn">Modifier le fiche de l'entreprise</a>
+        </div>
+    </div>
+    <div class="enterprise-content">
+        <h2 class="mt-3">Présentation</h2>
+        <p>{{ entreprise.texte_presentation }}</p>
+        <h2 class="mt-3">Avantages</h2>
+        <p>{{ entreprise.avantages }}</p>
+        <h2 class="mt-3">Description SEO</h2>
+        <p>{{ entreprise.courte_description_seo }}</p>
+        <h2 class="mt-3">Description de l'entreprise</h2>
+        <p>{{ entreprise.courte_description_entreprise }}</p>
+        <hr>
+        <div class="map-container">
+            <h2 class="mt-3">Localisation</h2>
+            <div id="map"></div>
+        </div>
+    </div>
+    
+</div>
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([{{ entreprise.latitude }}, {{ entreprise.longitude }}], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    L.marker([{{ entreprise.latitude }}, {{ entreprise.longitude }}]).addTo(map)
+        .bindPopup('<b>{{ entreprise.nom }}</b><br />{{ entreprise.adresse }}')
+        .openPopup();
+</script>
+
+
+{% endblock %}

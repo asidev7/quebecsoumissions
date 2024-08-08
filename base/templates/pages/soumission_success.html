@@ -1,0 +1,84 @@
+{% extends 'main/base.html' %}
+
+
+{% block main %}
+
+<style>
+    .banner-section{
+        background-image:url('static/images/bg-home.jpg');
+    }
+</style>
+<style>
+    .banner-section {
+        background-size: cover;
+        background-position: center;
+        padding: 60px 0;
+        color: white;
+        text-align: center;
+    }
+
+    .banner-overlay {
+        background: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .banner-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .success-section {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        background: #ffffff;
+        border: 1px solid #e0e0e0;
+        text-align: center;
+    }
+
+    .success-section h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: #38a5db;
+    }
+
+    .success-section p {
+        font-size: 1.2rem;
+    }
+</style>
+
+<div class="banner-section">
+    <div class="banner-overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 top-text">
+                <h1 class="text-center">Soumission Envoyée avec Succès</h1>
+                <hr class="text-center" size="5px" color="#38a5db" width="50">
+            </div>
+            
+        </div>
+    </div>
+</div>
+<div class="container success-section">
+    <h2>Merci pour votre soumission !</h2>
+    <p>Votre soumission a été envoyée avec succès. Nous vous contacterons bientôt.</p>
+    <a href="{% url 'home' %}" class="btn btn-primary">Retour à l'accueil</a>
+</div>
+
+
+
+
+<div class="btn-ctn justify-content-center text-center p-3 mb-3">
+    <a class="btn btn-custom text-center p-2 w-50" href="/Soummision">Demande de soummission</a>
+    </div>
+
+
+{% endblock %}
+
+

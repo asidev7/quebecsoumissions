@@ -4,6 +4,7 @@ from django.utils.text import slugify
 from slugger import AutoSlugField
 from markdownx.models import MarkdownxField
 from ckeditor.fields import RichTextField
+from django.utils.text import slugify
 
 
 class Information(models.Model):
@@ -15,12 +16,18 @@ class Information(models.Model):
 
 class Service(models.Model):
     nom = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
+
     def __str__(self) -> str:
         return self.nom
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.nom)
+        super().save(*args, **kwargs)
 
 class Fonctionnalite(models.Model):
-    nom = models.CharField(max_length=255)
-    description = models.TextField()
+    nom = models.CharField(max_length=255, blank=True)
+    description = models.TextField(blank=True)
 
     def __str__(self):
         return self.nom
@@ -52,6 +59,7 @@ class Forfait(models.Model):
 
 class Entreprise(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    nom = models.CharField(max_length=255,blank=True)
     service = models.ForeignKey(Service,on_delete=models.CASCADE)
     adresse = models.CharField(max_length=255)
     ville = models.CharField(max_length=100)
@@ -73,9 +81,16 @@ class Entreprise(models.Model):
     code_promotionnel = models.CharField(max_length=50, blank=True, null=True)
     pourcentage_remise = models.IntegerField(default=10)
     conditions_acceptees = models.BooleanField(default=False)
+    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
 
-    def __str__(self):
-        return self.service
+    def __str__(self) -> str:
+        return self.site_web
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.nom)
+        super().save(*args, **kwargs)
+
+   
 
     class Meta:
         verbose_name = 'Entrepreneur'
@@ -103,10 +118,15 @@ class Type_Soumission(models.Model):
 
     def __str__(self) -> str:
         return self.nom
+    class Meta:
+        verbose_name = 'Type de soumission'
+        verbose_name_plural = 'Type de soumission'
+
 
 
 class Soumission(models.Model):
-    type_soummission = models.ForeignKey(Type_Soumission,on_delete=models.CASCADE,null=True)
+    service = models.ForeignKey(Service,on_delete=models.CASCADE)
+    type_soummission = models.ForeignKey(Type_Soumission,on_delete=models.CASCADE,null=True,blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     adresse = models.CharField(max_length=255)
     ville = models.CharField(max_length=100)
@@ -124,6 +144,9 @@ class Realisation(models.Model):
     photo = models.ImageField(upload_to="Galleries")
     titre = models.CharField(max_length=255)
     description = models.TextField()
+    class Meta:
+        verbose_name = ''
+        verbose_name_plural = 'Realisations'
 
 
 class Blog(models.Model):
@@ -136,3 +159,17 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.titre
+    class Meta:
+        verbose_name = 'Blog'
+        verbose_name_plural = 'Blogs'
+        
+        
+class Contact(models.Model):
+    nom = models.CharField(max_length=255)
+    email = models.EmailField()
+    sujet = models.CharField(max_length=255)
+    message = models.TextField()
+    date_contact = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Contact de {self.nom} pour {self.entreprise.nom}"
